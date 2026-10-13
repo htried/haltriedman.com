@@ -1,0 +1,23 @@
+# One-time: remove files a misconfigured deploy put in the FTP home folder,
+# and the .git folder uploaded to public_html. Delete this workflow after use.
+name: Cleanup
+on: workflow_dispatch
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - run: sudo apt-get install -y -qq lftp
+      - env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "$FTP_SERVER" -e "
+            set ftp:ssl-allow no;
+            set cmd:fail-exit no;
+            rm -r domains/haltriedman.com/public_html/.git;
+            rm index.html hal.jpg style.css resume.pdf .htaccess .ftp-deploy-sync-state.json;
+            rm -r papers;
+            echo '--- home:'; cls -a;
+            echo '--- public_html:'; cls -a domains/haltriedman.com/public_html/;
+            quit"
