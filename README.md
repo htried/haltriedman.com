@@ -17,7 +17,7 @@ Preview locally: `open index.html`
 
 ## Deploying
 
-Pushing to `main` uploads the site to Hostinger over FTP
+Pushing to `main` uploads the site to Hostinger over FTP with lftp
 (`.github/workflows/deploy.yml`). It only touches files from this repo, so
 other folders in `public_html` are left alone. Needs repo secrets
 `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`.

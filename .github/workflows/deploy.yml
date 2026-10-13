@@ -1,5 +1,7 @@
 # Uploads the site to Hostinger over FTP on every push to main.
-# Only touches files from this repo; anything else in public_html is left alone.
+# Upload only: nothing on the server is deleted, so other folders in
+# public_html are left alone. (A file removed from this repo has to be
+# deleted from the server by hand.)
 name: Deploy
 
 on:
@@ -12,14 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: domains/haltriedman.com/public_html/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            .github/**
-            README.md
+      - run: sudo apt-get install -y -qq lftp
+      - env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "$FTP_USERNAME,$FTP_PASSWORD" "$FTP_SERVER" -e "
+            set ftp:ssl-allow no;
+            set net:max-retries 3;
+            mirror --reverse --verbose \
+              --exclude-glob .git* --exclude-glob .github/ --exclude-glob README.md \
+              ./ domains/haltriedman.com/public_html/;
+            quit"
