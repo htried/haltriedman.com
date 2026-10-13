@@ -1,0 +1,8 @@
+# Old WordPress URLs -> new locations
+RedirectMatch 301 ^/index\.php/technical-projects/?$ /#projects
+RedirectMatch 301 ^/index\.php/writing/?$ /#writing
+RedirectMatch 301 ^/wp-content/uploads/.*Resume.*\.pdf$ /resume.pdf
+RedirectMatch 301 ^/wp-admin/credit_history\.pdf$ /papers/credit_history.pdf
+
+# Don't serve repo housekeeping files
+RedirectMatch 404 ^/(README\.md|\.git.*)$

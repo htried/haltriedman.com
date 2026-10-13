@@ -1,0 +1,33 @@
+body {
+  max-width: 44em;
+  margin: 2em auto;
+  padding: 0 1em;
+  font-family: "Times New Roman", Times, serif;
+  line-height: 1.4;
+  background: #fff;
+  color: #000;
+}
+
+a { color: #00e; }
+a:visited { color: #551a8b; }
+
+h1 { margin: 0 0 0.3em 0; }
+h2 { margin-top: 1.5em; }
+
+table.header td { vertical-align: top; padding-right: 1em; }
+table.header img { border: 1px solid #000; }
+
+li { margin-bottom: 0.4em; }
+div.updates {
+  background: #eee;
+  border: 2px inset #ccc;
+  max-height: 14em;
+  overflow-y: auto;
+  padding: 0.5em 1em;
+}
+div.updates ul { list-style: none; padding-left: 0; margin: 0; }
+
+ul.papers li { margin-bottom: 0.8em; }
+.footnote { font-size: small; }
+
+.footer { font-size: small; font-style: italic; }
